@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  NetworkExtension
+//  AppNetworkExtension-POC
 //
 //  Created by Pedro Somensi on 27/01/24.
 //
