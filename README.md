@@ -1,4 +1,4 @@
-# Teste Arquitetural
-- exemplo de adição de uma camada intermidiaria(network-extension) a dependência network.
+# Network-Extension
+- example of adding an intermediate layer (network extension) to network dependency.
 
 ![graph](/dependecy-graph.png)
