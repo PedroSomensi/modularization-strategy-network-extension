@@ -19,11 +19,24 @@ public enum Method: String {
 public struct Request {
     public var method: Method
     public var endpoint: String
+    public var headers: [String: String]?
+    public var body: Data?
+    var timeout: TimeInterval?
     public var additionalInfos: [String: Any]? = nil
     
-    public init(method: Method, endpoint: String, additionalInfos: [String : Any]? = nil) {
+    public init(
+        method: Method,
+        endpoint: String,
+        headers: [String : String]? = nil,
+        body: Data? = nil,
+        timeout: TimeInterval? = nil,
+        additionalInfos: [String : Any]? = nil)
+    {
         self.method = method
         self.endpoint = endpoint
+        self.headers = headers
+        self.body = body
+        self.timeout = timeout
         self.additionalInfos = additionalInfos
     }
 }
@@ -32,7 +45,7 @@ public protocol Requestable {
     
     func call(
         request: Request,
-        completion: @escaping (Response) -> Void
+        completion: @escaping (Result<Response, Error>) -> Void
     )
     
 }

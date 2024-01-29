@@ -7,34 +7,41 @@
 
 import Foundation
 
-final class RequestImplementation: Requestable {
-    
-    func call(
-        request: Request,
-        completion: @escaping (Response) -> Void
-    ) {
-        print("RequestImplementation Dummy - called - crash your app")
-    }
-    
-}
-
 @propertyWrapper
 public struct RequestProvider {
     
-    private static var implementation: Requestable = RequestImplementation()
+    private static var requester: Requestable?
+    private static var requesterClosure: (() -> Requestable)?
+    
+    private var requester: Requestable {
+        if let requester = Self.requester {
+            return requester
+        }
+        
+        if let requesterClosure = Self.requesterClosure {
+            let requester = requesterClosure()
+            return requester
+        }
+        
+        fatalError("need RequestProvider implementation in app")
+    }
+    
+    public init() { }
     
     public var wrappedValue: Requestable {
-        get {
-            return Self.implementation
-        }
-        set {
-            Self.implementation = newValue
+        return requester
+    }
+    
+    public static func set(_ requester: Requestable) {
+        if self.requester == nil && self.requesterClosure == nil {
+            self.requester = requester
         }
     }
     
-    public init(requestable: Requestable? = nil) {
-        guard let instance = requestable else { return }
-        wrappedValue = instance
+    public static func set(_ closure: @escaping () -> Requestable) {
+        if self.requester == nil && self.requesterClosure == nil {
+            self.requesterClosure = closure
+        }
     }
     
 }

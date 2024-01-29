@@ -49,19 +49,6 @@ final class FeatureApiService {
             
         }
         
-        // or
-        /*
-        provider.safeCallApi(provider: saProvider, request: request) { response in
-            
-            if response.data != nil {
-                print("Feature: getBalance finished with response: \(response)")
-            } else {
-                print("Feature: getBalance finished with error: \(response.error)")
-            }
-            
-            print("Feature: reviced result from backend")
-        }
-        */
     }
     
 }

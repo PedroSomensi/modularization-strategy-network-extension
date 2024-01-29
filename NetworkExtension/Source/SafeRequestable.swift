@@ -16,12 +16,6 @@ public protocol SafeRequestable {
         completion: @escaping (Result<SafeResponse, Error>) -> Void
     )
     
-    func safeCallApi(
-        provider: Requestable,
-        request: Request,
-        completion: @escaping (Response) -> Void
-    )
-    
 }
 
 public extension SafeRequestable {
@@ -36,34 +30,14 @@ public extension SafeRequestable {
         
         provider.call(request: request) { response in
             
-            if response.error != nil {
+            switch response {
+            case .success(let obj):
+                print("SA_Layer - callback of success")
+                completion(.success(SafeResponse(data: obj.data)))
+            case .failure(let error):
                 print("SA_Layer - callback of error")
-                completion(.failure(response.error!))
+                completion(.failure(error))
             }
-            
-            print("SA_Layer - callback of success")
-            completion(.success(SafeResponse(data: response.data)))
-        }
-        
-    }
-    
-    func safeCallApi(
-        provider: Requestable,
-        request: Request,
-        completion: @escaping (Response) -> Void
-    ) {
-        
-        print("SafeRequest - apply rules")
-        
-        provider.call(request: request) { response in
-            
-            if response.error != nil {
-                print("SA_Layer - callback of error")
-                completion(response)
-            }
-            
-            print("SA_Layer - callback of success")
-            completion(response)
             
         }
         

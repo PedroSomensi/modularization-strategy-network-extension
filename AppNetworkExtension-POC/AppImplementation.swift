@@ -18,8 +18,7 @@ final class AppImplementation {
     }
     
     private func setupAppRequest() {
-        @RequestProvider(requestable: AppRequest())
-        var requestProvider: Requestable
+        RequestProvider.set(AppRequest())
         print("Injetado SA_Layer: AppRequest para features!!")
     }
     
@@ -32,9 +31,9 @@ final class SafeRequest: SafeRequestable {
 
 final class AppRequest: Requestable {
     
-    func call(request: Network.Request, completion: @escaping (Network.Response) -> Void) {
+    func call(request: Network.Request, completion: @escaping (Result<Network.Response, Error>) -> Void) {
         print("SA_Layer: from App")
-        completion(Response())
+        completion(.success(Response()))
     }
     
 }
